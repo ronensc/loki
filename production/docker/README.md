@@ -1,6 +1,6 @@
 # Loki cluster using docker-compose
 
-To deploy a cluster of loki nodes on a local machine (as shown below), you could use the `docker-compose-ha-member.yaml` file.
+To deploy a cluster of loki nodes on a local machine (as shown below), you could use the `docker-compose-ha-memberlist.yaml` file.
 
 <img src="./docker-compose-ha-diagram.png" width="850">
 
