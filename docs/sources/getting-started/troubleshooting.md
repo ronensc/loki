@@ -6,7 +6,7 @@ title: Troubleshooting
 ## "Loki: Bad Gateway. 502"
 
 This error can appear in Grafana when Loki is added as a
-datasource, indicating that Grafana in unable to connect to Loki. There may
+datasource, indicating that Grafana in unable to connect to Loki. There may be
 one of many root causes:
 
 - If Loki is deployed with Docker, and Grafana and Loki are not running in the
