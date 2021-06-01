@@ -88,6 +88,7 @@ func (q *Query) DoQuery(c client.Client, out output.LogOutput, statistics bool) 
 		total := 0
 		start := q.Start
 		end := q.End
+		num_errors := 0
 		var lastEntry []*loghttp.Entry
 		for total < q.Limit {
 			bs := q.BatchSize
@@ -101,7 +102,9 @@ func (q *Query) DoQuery(c client.Client, out output.LogOutput, statistics bool) 
 			}
 			resp, err = c.QueryRange(q.QueryString, bs, start, end, d, q.Step, q.Interval, q.Quiet)
 			if err != nil {
-				log.Fatalf("Query failed: %+v", err)
+				log.Printf("Query failed: %+v", err)
+				num_errors++
+				continue
 			}
 
 			if statistics {
@@ -137,6 +140,8 @@ func (q *Query) DoQuery(c client.Client, out output.LogOutput, statistics bool) 
 			// Because of this duplicate entry, we have to subtract it here from the total for each batch
 			// to get the desired limit.
 			total += resultLength
+			log.Printf("Logs so far: %v", total)
+			log.Printf("errors so far: %v", num_errors)
 			// Based on the query direction we either set the start or end for the next query.
 			// If there are multiple entries in `lastEntry` they have to have the same timestamp so we can pick just the first
 			if q.Forward {
@@ -148,6 +153,7 @@ func (q *Query) DoQuery(c client.Client, out output.LogOutput, statistics bool) 
 			}
 
 		}
+		log.Printf("Num errors: %v", num_errors)
 	}
 }
 
